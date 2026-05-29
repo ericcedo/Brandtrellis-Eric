@@ -226,6 +226,64 @@
     color: var(--fg-4);
   }
 
+  /* ---------- ACTIONS ---------- */
+  .actions {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+  }
+  .btn {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    padding: 14px 22px;
+    border-radius: var(--r-pill);
+    border: 1px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    transition: background var(--dur-fast) var(--ease-out),
+                border-color var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+  }
+  .btn:focus-visible { outline: none; box-shadow: var(--shadow-focus); }
+  .btn-primary { background: var(--bt-green); color: #fff; }
+  .btn-primary:hover { background: var(--bt-green-700); }
+  .btn-secondary { background: #fff; color: var(--bt-blue); border-color: var(--bt-line); }
+  .btn-secondary:hover { border-color: var(--bt-blue); }
+  .actions .note {
+    flex-basis: 100%;
+    margin: 2px 0 0;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: var(--fg-4);
+  }
+  .save-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translateX(-50%) translateY(16px);
+    background: var(--bt-blue);
+    color: #fff;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13.5px;
+    letter-spacing: 0.02em;
+    padding: 12px 20px;
+    border-radius: var(--r-pill);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--dur-base) var(--ease-out),
+                transform var(--dur-base) var(--ease-out);
+    z-index: 1000;
+  }
+  .save-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   @media print {
     body { background: #fff; padding: 0; }
     .doc { border: none; box-shadow: none; border-radius: 0; max-width: 100%; }
@@ -233,6 +291,7 @@
     ol.q li { break-inside: avoid; }
     .answer { background: #fff; }
     .answer-input { color: #000; }
+    .actions, .save-toast { display: none !important; }
   }
   @media (max-width: 640px) {
     .bd, .hd { padding-left: 28px; padding-right: 28px; }
@@ -333,14 +392,26 @@
       <strong>How to respond:</strong> Bullet points are fine — don't polish. We'll shape the narrative into the deck. Aim for honesty over perfection; investors smell spin.
     </div>
 
+    <div class="actions">
+      <button type="button" class="btn btn-primary" id="btn-download">Download my answers</button>
+      <button type="button" class="btn btn-secondary" id="btn-email">Email my answers</button>
+      <button type="button" class="btn btn-secondary" id="btn-print">Print / Save as PDF</button>
+      <p class="note">Nothing is sent automatically. <strong>Download</strong> saves your answers as a text file you can email back, or <strong>Email</strong> opens your mail app with everything filled in. Either way, send it to us when you're done.</p>
+    </div>
+
   </div>
 </form>
 
 <p class="foot">BrandTrellis · Marketing Agents · Confidential founder intake</p>
 
+<div class="save-toast" id="toast" role="status" aria-live="polite"></div>
+
 <script>
-  // Auto-grow answer fields as the founder types — keeps the print layout clean.
+  // ---- Where "Email my answers" sends to. Edit this to change the recipient. ----
+  var RECIPIENT_EMAIL = "eric@crunchgrowth.com";
+
   (function () {
+    // Auto-grow answer fields as the founder types — keeps the print layout clean.
     var fields = document.querySelectorAll('.answer-input');
     function grow(el) {
       el.style.height = 'auto';
@@ -349,6 +420,89 @@
     fields.forEach(function (el) {
       grow(el);
       el.addEventListener('input', function () { grow(el); });
+    });
+
+    // Collect every section + question + typed answer into readable plain text.
+    function collect() {
+      var lines = [];
+      lines.push('Marketing Agents — Founder Intake');
+      lines.push('BrandTrellis · Confidential');
+      lines.push('Completed: ' + new Date().toLocaleDateString());
+      lines.push('');
+
+      document.querySelectorAll('.sec').forEach(function (sec) {
+        var num = (sec.querySelector('.sec-num') || {}).textContent || '';
+        var title = (sec.querySelector('.sec-hd h2') || {}).textContent || '';
+        lines.push('');
+        lines.push(num.trim() + '  ' + title.trim());
+        lines.push('────────────────────────────────────────');
+
+        sec.querySelectorAll('ol.q li').forEach(function (li) {
+          var qn = (li.querySelector('.qn') || {}).textContent || '';
+          var qt = (li.querySelector('.qt') || {}).textContent || '';
+          var ans = (li.querySelector('.answer-input') || {}).value || '';
+          ans = ans.trim();
+          lines.push('');
+          lines.push(qn.trim() + '. ' + qt.replace(/\s+/g, ' ').trim());
+          if (ans) {
+            ans.split('\n').forEach(function (l) { lines.push('   ' + l); });
+          } else {
+            lines.push('   (no answer)');
+          }
+        });
+      });
+      lines.push('');
+      return lines.join('\n');
+    }
+
+    function answeredCount() {
+      var n = 0;
+      fields.forEach(function (el) { if (el.value.trim()) n++; });
+      return n;
+    }
+
+    var toast = document.getElementById('toast');
+    var toastTimer;
+    function showToast(msg) {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+    }
+
+    // Download as a .txt file the founder can attach to an email.
+    document.getElementById('btn-download').addEventListener('click', function () {
+      var text = collect();
+      var stamp = new Date().toISOString().slice(0, 10);
+      var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'Marketing-Agents-Founder-Intake-' + stamp + '.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      showToast('Downloaded ' + answeredCount() + ' of ' + fields.length + ' answers — email the file back to us.');
+    });
+
+    // Open the founder's mail client with everything pre-filled.
+    document.getElementById('btn-email').addEventListener('click', function () {
+      var body = collect();
+      var subject = 'Marketing Agents — Founder Intake';
+      var href = 'mailto:' + encodeURIComponent(RECIPIENT_EMAIL) +
+                 '?subject=' + encodeURIComponent(subject) +
+                 '&body=' + encodeURIComponent(body);
+      // Very long answers can exceed some mail clients' URL limits; nudge to Download instead.
+      if (href.length > 1900) {
+        showToast('Your answers are long — use “Download my answers” and attach the file instead.');
+        return;
+      }
+      window.location.href = href;
+    });
+
+    document.getElementById('btn-print').addEventListener('click', function () {
+      window.print();
     });
   })();
 </script>
