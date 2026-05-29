@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marketing Agents · Pre-Seed Pitch</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/colors_and_type.css">
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<style>
+  deck-stage:not(:defined) { visibility: hidden; }
+  body { margin: 0; background: #0b0d22; }
+
+  :root {
+    --scale: 1;
+    --accent-deck: #70944d;
+    --accent-deck-300: #b5cba0;
+    --accent-deck-700: #587938;
+
+    --type-cover:   calc(128px * var(--scale));
+    --type-title:   calc(82px  * var(--scale));
+    --type-mega:    calc(300px * var(--scale));
+    --type-h:       calc(58px  * var(--scale));
+    --type-sub:     calc(40px  * var(--scale));
+    --type-lede:    calc(34px  * var(--scale));
+    --type-body:    calc(28px  * var(--scale));
+    --type-small:   calc(24px  * var(--scale));
+    --type-eyebrow: calc(24px  * var(--scale));
+
+    --pad-x: 130px;
+    --pad-y: 112px;
+    --head-w: 800;
+  }
+
+  /* ---------- slide shells ---------- */
+  section {
+    font-family: var(--font-body);
+    color: var(--bt-ink);
+    background: #fff;
+    overflow: hidden;
+  }
+  .pad { box-sizing: border-box; width: 1920px; height: 1080px; padding: var(--pad-y) var(--pad-x); position: relative; display: flex; flex-direction: column; }
+  .dark { background: var(--bt-blue); color: #fff; }
+  .canvas { background: var(--bt-canvas); }
+  .hero-bg { background: var(--gradient-hero); color: #fff; }
+
+  /* ---------- shared chrome ---------- */
+  .logo-mark { position: absolute; top: 60px; left: var(--pad-x); height: 34px; }
+  .dark .logo-mark, .hero-bg .logo-mark { filter: brightness(0) invert(1); }
+  .page-num { position: absolute; bottom: 56px; right: var(--pad-x); font-family: var(--font-display); font-weight: 700; font-size: 24px; color: var(--bt-mute); letter-spacing: 0.05em; }
+  .dark .page-num, .hero-bg .page-num { color: rgba(255,255,255,0.5); }
+  body[data-pagenums="off"] .page-num { display: none; }
+
+  .eb {
+    font-family: var(--font-display); font-weight: 700; font-size: var(--type-eyebrow);
+    letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-deck-700);
+    display: inline-flex; align-items: center; gap: 18px; margin-bottom: 30px;
+  }
+  .eb::before { content: ""; width: 46px; height: 3px; background: var(--accent-deck); display: inline-block; }
+  .dark .eb, .hero-bg .eb { color: var(--accent-deck-300); }
+  .dark .eb::before, .hero-bg .eb::before { background: var(--accent-deck); }
+
+  h1.title { font-family: var(--font-display); font-weight: var(--head-w); font-size: var(--type-title); letter-spacing: -0.02em; line-height: 1.02; color: var(--bt-ink); margin: 0; max-width: 1560px; }
+  .dark h1.title, .hero-bg h1.title { color: #fff; }
+  .lede { font-family: var(--font-body); font-size: var(--type-lede); line-height: 1.45; color: var(--fg-2); max-width: 1400px; margin: 0; }
+  .dark .lede, .hero-bg .lede { color: rgba(255,255,255,0.82); }
+
+  /* trellis motif */
+  .motif-corner::before { content: ""; position: absolute; right: -180px; top: -180px; width: 760px; height: 760px; background: url('assets/logo-icon.png') center/contain no-repeat; opacity: 0.09; filter: brightness(0) invert(1); transform: rotate(8deg); pointer-events: none; }
+  .motif-tile::before { content: ""; position: absolute; inset: 0; background-image: url('assets/logo-icon.png'); background-size: 190px 190px; background-repeat: repeat; opacity: 0.05; filter: brightness(0) invert(1); pointer-events: none; }
+
+  /* ---------- placeholder token ---------- */
+  .ph { color: var(--accent-deck-700); border-bottom: 2px dotted var(--accent-deck); padding-bottom: 1px; font-style: normal; }
+  .dark .ph, .hero-bg .ph { color: var(--accent-deck-300); border-color: var(--accent-deck-300); }
+
+  /* ============ 01 COVER ============ */
+  .cover-content { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; z-index: 1; }
+  .cover h1 { font-family: var(--font-display); font-weight: 900; font-size: var(--type-cover); letter-spacing: -0.03em; line-height: 0.95; color: #fff; margin: 0 0 30px; }
+  .cover h1 em { font-style: normal; color: var(--accent-deck-300); }
+  .cover .sub { font-size: var(--type-lede); line-height: 1.4; color: rgba(255,255,255,0.82); margin: 0 0 60px; max-width: 1180px; }
+  .cover .meta { display: flex; gap: 44px; align-items: center; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.18); font-family: var(--font-display); font-weight: 600; font-size: var(--type-small); color: rgba(255,255,255,0.74); }
+  .cover .meta strong { color: #fff; font-weight: 700; }
+
+  /* ============ generic header block ============ */
+  .head-block { margin-bottom: 56px; }
+
+  /* ============ 3-card grid ============ */
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+  .card { background: var(--bt-canvas); border: 1px solid var(--border-soft); border-radius: 20px; padding: 48px 44px; display: flex; flex-direction: column; }
+  .canvas .card { background: #fff; }
+  .card .knum { font-family: var(--font-display); font-weight: 900; font-size: 24px; color: var(--accent-deck-700); letter-spacing: 0.12em; margin-bottom: 26px; display: flex; align-items: center; gap: 14px; }
+  .card .knum i, .card .knum svg { width: 30px; height: 30px; color: var(--bt-blue); }
+  .card h3 { font-family: var(--font-display); font-weight: 800; font-size: 36px; letter-spacing: -0.01em; line-height: 1.1; color: var(--bt-ink); margin: 0 0 18px; }
+  .card p { font-family: var(--font-body); font-size: var(--type-body); line-height: 1.45; color: var(--fg-2); margin: 0; }
+
+  /* ============ two-col (product) ============ */
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; flex: 1; }
+  .split .copy h1.title { margin-bottom: 30px; }
+  .split ul.checks { list-style: none; padding: 0; margin: 36px 0 0; display: flex; flex-direction: column; gap: 22px; }
+  .split ul.checks li { display: flex; gap: 18px; align-items: flex-start; font-size: var(--type-body); line-height: 1.4; color: var(--fg-2); }
+  .split ul.checks li i, .split ul.checks li svg { width: 30px; height: 30px; color: var(--accent-deck-700); flex: none; margin-top: 4px; }
+  .shot { width: 100%; aspect-ratio: 4 / 3; border-radius: 20px; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
+
+  /* ============ stat ============ */
+  .stat-grid { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 100px; align-items: center; flex: 1; }
+  .mega { font-family: var(--font-display); font-weight: 900; font-size: var(--type-mega); letter-spacing: -0.04em; line-height: 0.82; color: var(--accent-deck-700); }
+  .mega small { font-size: 0.45em; }
+  .stat-grid h2 { font-family: var(--font-display); font-weight: 800; font-size: var(--type-h); letter-spacing: -0.02em; line-height: 1.05; color: var(--bt-ink); margin: 28px 0 24px; }
+  .stat-grid p { font-size: var(--type-body); line-height: 1.5; color: var(--fg-2); margin: 0; }
+  .metric-row { display: flex; gap: 64px; margin-top: 56px; }
+  .metric-row .m .v { font-family: var(--font-display); font-weight: 900; font-size: 66px; color: var(--bt-blue); letter-spacing: -0.02em; line-height: 1; }
+  .metric-row .m .l { font-size: var(--type-small); color: var(--fg-3); margin-top: 12px; }
+  .src { font-family: var(--font-mono); font-size: 24px; color: var(--fg-4); margin-top: 44px; }
+
+  /* ============ market bars ============ */
+  .market-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; align-items: center; flex: 1; }
+  .tam-bar { display: flex; flex-direction: column; gap: 26px; }
+  .tier { border-radius: 16px; padding: 30px 36px; display: flex; justify-content: space-between; align-items: center; }
+  .tier .tlab { font-family: var(--font-display); font-weight: 800; font-size: 30px; letter-spacing: 0.04em; }
+  .tier .tdesc { font-size: var(--type-small); opacity: 0.9; margin-top: 6px; }
+  .tier .tval { font-family: var(--font-display); font-weight: 900; font-size: 52px; letter-spacing: -0.02em; }
+  .tier.t1 { background: var(--bt-blue); color: #fff; }
+  .tier.t2 { background: var(--bt-blue-500); color: #fff; width: 80%; }
+  .tier.t3 { background: var(--accent-deck); color: #fff; width: 58%; }
+
+  /* ============ comparison matrix ============ */
+  .cmp { width: 100%; border-collapse: separate; border-spacing: 0; }
+  .cmp th, .cmp td { padding: 26px 30px; text-align: left; font-size: var(--type-small); }
+  .cmp thead th { font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--bt-ink); border-bottom: 3px solid var(--bt-line); }
+  .cmp thead th.us { color: var(--bt-blue); }
+  .cmp tbody td { border-bottom: 1px solid var(--border-soft); color: var(--fg-2); }
+  .cmp tbody td.feat { font-family: var(--font-display); font-weight: 700; color: var(--bt-ink); }
+  .cmp .col-us { background: var(--bt-blue-50); }
+  .cmp td.col-us { color: var(--bt-blue); font-weight: 700; }
+  .cmp .yes { color: var(--accent-deck-700); width: 26px; height: 26px; }
+  .cmp .no { color: var(--bt-mute); width: 24px; height: 24px; }
+
+  /* ============ comparison 2-col (problem old/new) ============ */
+  .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  .col { border-radius: 20px; padding: 50px 46px; }
+  .col-bad { background: var(--bt-canvas); border: 1px solid var(--border-soft); }
+  .col-good { background: var(--bt-blue); color: #fff; position: relative; overflow: hidden; }
+  .col-tag { font-family: var(--font-display); font-weight: 700; font-size: 24px; letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 16px; display: block; }
+  .col-bad .col-tag { color: var(--fg-4); }
+  .col-good .col-tag { color: var(--accent-deck-300); }
+  .col h3 { font-family: var(--font-display); font-weight: 800; font-size: 38px; margin: 0 0 26px; letter-spacing: -0.01em; }
+  .col-bad h3 { color: var(--fg-3); }
+  .col-good h3 { color: #fff; }
+  .col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 18px; }
+  .col li { font-size: var(--type-small); line-height: 1.4; display: flex; gap: 16px; align-items: flex-start; }
+  .col-bad li { color: var(--fg-3); }
+  .col-bad li::before { content: "—"; color: var(--fg-4); font-weight: 700; }
+  .col-good li { color: rgba(255,255,255,0.92); }
+  .col-good li i, .col-good li svg { width: 26px; height: 26px; color: var(--accent-deck-300); flex: none; margin-top: 3px; }
+
+  /* ============ roadmap ============ */
+  .road { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; flex: 1; align-content: center; }
+  .phase { border-radius: 18px; padding: 40px 34px; background: var(--bt-canvas); border: 1px solid var(--border-soft); position: relative; }
+  .phase.now { background: var(--bt-blue); color: #fff; }
+  .phase .ptime { font-family: var(--font-display); font-weight: 800; font-size: 24px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-deck-700); margin-bottom: 20px; }
+  .phase.now .ptime { color: var(--accent-deck-300); }
+  .phase h4 { font-family: var(--font-display); font-weight: 800; font-size: 28px; margin: 0 0 16px; color: var(--bt-ink); letter-spacing: -0.01em; }
+  .phase.now h4 { color: #fff; }
+  .phase ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .phase li { font-size: 24px; line-height: 1.35; color: var(--fg-2); padding-left: 22px; position: relative; }
+  .phase li::before { content: ""; position: absolute; left: 0; top: 13px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-deck); }
+  .phase.now li { color: rgba(255,255,255,0.88); }
+
+  /* ============ team ============ */
+  .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; }
+  .member { display: flex; flex-direction: column; }
+  .member image-slot, .member .ph-av { width: 100%; aspect-ratio: 1; border-radius: 18px; }
+  .member .nm { font-family: var(--font-display); font-weight: 800; font-size: 32px; color: var(--bt-ink); margin: 28px 0 6px; }
+  .member .ttl { font-family: var(--font-display); font-weight: 700; font-size: 24px; color: var(--accent-deck-700); letter-spacing: 0.04em; margin-bottom: 16px; }
+  .member p { font-size: 24px; line-height: 1.45; color: var(--fg-2); margin: 0; }
+
+  /* ============ ask ============ */
+  .ask-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 90px; align-items: center; flex: 1; }
+  .ask-amt { font-family: var(--font-display); font-weight: 900; font-size: 168px; letter-spacing: -0.03em; line-height: 0.9; color: #fff; }
+  .ask-amt small { font-size: 0.34em; display: block; color: var(--accent-deck-300); letter-spacing: 0.04em; margin-top: 34px; font-weight: 700; }
+  .ask-side h3 { font-family: var(--font-display); font-weight: 800; font-size: 34px; color: #fff; margin: 0 0 30px; }
+  .use { display: flex; flex-direction: column; gap: 22px; }
+  .use-row { display: grid; grid-template-columns: 280px 1fr 80px; gap: 22px; align-items: center; }
+  .use-row .ul { font-size: var(--type-small); color: rgba(255,255,255,0.9); }
+  .use-row .ut { background: rgba(255,255,255,0.12); border-radius: 999px; height: 18px; overflow: hidden; }
+  .use-row .uf { height: 100%; background: var(--accent-deck); border-radius: 999px; }
+  .use-row .up { font-family: var(--font-display); font-weight: 800; font-size: 26px; color: var(--accent-deck-300); text-align: right; }
+
+  /* ============ vision close ============ */
+  .close-wrap { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: center; z-index: 1; max-width: 1560px; }
+  .close-wrap h1 { font-family: var(--font-display); font-weight: 900; font-size: var(--type-cover); letter-spacing: -0.03em; line-height: 0.98; color: #fff; margin: 0 0 40px; }
+  .close-wrap h1 em { font-style: normal; color: var(--accent-deck-300); }
+  .close-wrap p { font-size: var(--type-lede); line-height: 1.4; color: rgba(255,255,255,0.82); max-width: 1180px; margin: 0; }
+
+  /* ============ DIRECTION: EDITORIAL ============ */
+  body[data-dir="editorial"] { --head-w: 700; }
+  body[data-dir="editorial"] .cover.hero-bg { background: var(--bt-canvas); color: var(--bt-ink); }
+  body[data-dir="editorial"] .cover .logo-mark { filter: none; }
+  body[data-dir="editorial"] .cover h1 { color: var(--bt-ink); }
+  body[data-dir="editorial"] .cover h1 em { color: var(--accent-deck-700); }
+  body[data-dir="editorial"] .cover .sub { color: var(--fg-2); }
+  body[data-dir="editorial"] .cover .meta { color: var(--fg-3); border-top-color: var(--bt-line); }
+  body[data-dir="editorial"] .cover .meta strong { color: var(--bt-ink); }
+  body[data-dir="editorial"] .cover .eb { color: var(--accent-deck-700); }
+  body[data-dir="editorial"] .cover .motif-corner::before { filter: none; opacity: 0.06; }
+  body[data-dir="editorial"] .cover .page-num { color: var(--bt-mute); }
+
+  /* ============ DIRECTION: DATA-FORWARD ============ */
+  body[data-dir="data"] section.light-slide { background: var(--bt-canvas); }
+  body[data-dir="data"] .card { background: #fff; box-shadow: var(--shadow-sm); border-color: var(--border-soft); }
+  body[data-dir="data"] .mega { color: var(--bt-blue); }
+  body[data-dir="data"] .eb { color: var(--accent-deck-700); }
+
+  /* tweaks mount */
+  #tweaks-root { position: fixed; z-index: 9999; }
+</style>
+
+<script type="application/json" id="speaker-notes">[]</script>
+<script src="deck-stage.js"></script>
+<script src="image-slot.js"></script>
+</head>
+<body data-dir="bold" data-pagenums="on">
+<deck-stage width="1920" height="1080">
+
+  <!-- 01 COVER -->
+  <section class="cover hero-bg" data-label="Cover">
+    <div class="pad motif-corner">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="cover-content">
+        <div class="eb">Pre-Seed · 2026</div>
+        <h1>Marketing<br><em>Agents</em></h1>
+        <p class="sub">A team of autonomous AI agents that plan, produce, and optimize a company's marketing — end to end, without the headcount.</p>
+        <div class="meta">
+          <span>Raising <strong class="ph">$1.5M Pre-Seed</strong></span>
+          <span>·</span>
+          <span>By <strong>BrandTrellis</strong></span>
+          <span>·</span>
+          <span class="ph">founder@brandtrellis.com</span>
+        </div>
+      </div>
+      <div class="page-num">01</div>
+    </div>
+  </section>
+
+  <!-- 02 PROBLEM -->
+  <section class="light-slide" data-label="The Problem">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">The Problem</div>
+        <h1 class="title">Marketing execution still runs on human hours.</h1>
+      </div>
+      <div class="twocol">
+        <div class="col col-bad">
+          <span class="col-tag">Today · the tool + agency stack</span>
+          <h3>You're paying for output you still have to assemble.</h3>
+          <ul>
+            <li>Content tools draft copy — but a human still briefs, edits, schedules, and reports.</li>
+            <li>Agencies are slow and expensive; a campaign takes weeks and a retainer.</li>
+            <li>CRM and ad platforms don't talk; performance lives in 6 dashboards.</li>
+            <li>Lean teams cap growth at whatever 1–2 marketers can physically ship.</li>
+          </ul>
+        </div>
+        <div class="col col-good motif-corner">
+          <span class="col-tag">The gap</span>
+          <h3>Nobody runs the work autonomously.</h3>
+          <ul>
+            <li><i data-lucide="check"></i><span>Generative tools assist tasks. They don't own outcomes.</span></li>
+            <li><i data-lucide="check"></i><span>The market needs a system that <em style="font-style:normal;color:var(--accent-deck-300)">does the marketing</em>, not one that helps you do it.</span></li>
+            <li><i data-lucide="check"></i><span>That requires agents with memory, tools, and judgment — newly possible in 2026.</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-num">02</div>
+    </div>
+  </section>
+
+  <!-- 03 WHY NOW -->
+  <section class="light-slide" data-label="Why Now">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">Why Now</div>
+        <h1 class="title">Three shifts converge in 2026.</h1>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <span class="knum"><i data-lucide="cpu"></i>01</span>
+          <h3>Agents got capable</h3>
+          <p>Tool use, long-context reasoning, and reliable orchestration crossed the threshold from demo to production this year.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="trending-down"></i>02</span>
+          <h3>Inference got cheap</h3>
+          <p>Model cost per task fell <span class="ph">~10x</span> in 18 months, making always-on marketing agents economically viable.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="users"></i>03</span>
+          <h3>Teams must do more with less</h3>
+          <p>Budgets are flat, output expectations aren't. SMBs want agency-grade marketing without agency headcount.</p>
+        </div>
+      </div>
+      <div class="page-num">03</div>
+    </div>
+  </section>
+
+  <!-- 04 PRODUCT -->
+  <section class="light-slide" data-label="The Product">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="split">
+        <div class="copy">
+          <div class="eb">The Product</div>
+          <h1 class="title">Hire a marketing team that never sleeps.</h1>
+          <p class="lede">You connect your channels and brief your goals once. Marketing Agents takes it from there — planning campaigns, producing assets, publishing, and reporting back in plain language.</p>
+          <ul class="checks">
+            <li><i data-lucide="message-square"></i><span>Brief a goal in chat — "fill the Q3 webinar."</span></li>
+            <li><i data-lucide="workflow"></i><span>Agents plan the campaign, draft assets, and queue them for your approval.</span></li>
+            <li><i data-lucide="gauge"></i><span>They publish, watch performance, and adjust spend and copy autonomously.</span></li>
+          </ul>
+        </div>
+        <div>
+          <image-slot id="product-shot" class="shot" shape="rounded" radius="20" placeholder="Drop a product screenshot"></image-slot>
+        </div>
+      </div>
+      <div class="page-num">04</div>
+    </div>
+  </section>
+
+  <!-- 05 HOW IT WORKS -->
+  <section class="light-slide" data-label="How It Works">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">How It Works · Three Agents, One Engine</div>
+        <h1 class="title">Plan. Produce. Optimize.</h1>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <span class="knum"><i data-lucide="compass"></i>01 · Plan</span>
+          <h3>The Strategist</h3>
+          <p>Turns a goal into a channel plan, calendar, and budget — grounded in your brand, past performance, and ICP.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="pen-tool"></i>02 · Produce</span>
+          <h3>The Producer</h3>
+          <p>Drafts on-brand copy, creative, landing pages, and sequences — then routes them for one-click human approval.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="line-chart"></i>03 · Optimize</span>
+          <h3>The Optimizer</h3>
+          <p>Publishes, monitors every channel, reallocates spend, and rewrites what underperforms — continuously.</p>
+        </div>
+      </div>
+      <div class="page-num">05</div>
+    </div>
+  </section>
+
+  <!-- 06 MOAT -->
+  <section class="light-slide" data-label="Unfair Advantage">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">The Unfair Advantage</div>
+        <h1 class="title">The moat compounds with every account.</h1>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <span class="knum"><i data-lucide="database"></i>01</span>
+          <h3>Proprietary outcome data</h3>
+          <p>Every campaign we run teaches the system what converts by industry — a dataset competitors can't buy.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="layers"></i>02</span>
+          <h3>Orchestration layer</h3>
+          <p>Our agent framework coordinates planning, production, and channels reliably — the hard part others underestimate.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="git-merge"></i>03</span>
+          <h3>Deep integrations</h3>
+          <p>Native hooks into CRM, ad, and CMS platforms create switching costs and account context that deepens over time.</p>
+        </div>
+      </div>
+      <div class="page-num">06</div>
+    </div>
+  </section>
+
+  <!-- 07 MARKET -->
+  <section class="canvas" data-label="Market Opportunity">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">Market Opportunity</div>
+        <h1 class="title">A large, budgeted market shifting to software.</h1>
+      </div>
+      <div class="market-grid">
+        <div class="tam-bar">
+          <div class="tier t1">
+            <div><div class="tlab">TAM</div><div class="tdesc">Global marketing software + services</div></div>
+            <div class="tval ph">$420B</div>
+          </div>
+          <div class="tier t2">
+            <div><div class="tlab">SAM</div><div class="tdesc">SMB &amp; mid-market marketing automation</div></div>
+            <div class="tval ph">$48B</div>
+          </div>
+          <div class="tier t3">
+            <div><div class="tlab">SOM</div><div class="tdesc">5-yr obtainable · early ICP segments</div></div>
+            <div class="tval ph">$1.2B</div>
+          </div>
+        </div>
+        <div>
+          <p class="lede">Bottom-up: <span class="ph">~6M</span> SMBs spend <span class="ph">$8k+/yr</span> on marketing tools and contractors. Marketing Agents replaces a slice of both budgets with one subscription.</p>
+          <p class="src">Replace [TAM/SAM/SOM] figures and sizing logic with the founder's Q11 answer.</p>
+        </div>
+      </div>
+      <div class="page-num">07</div>
+    </div>
+  </section>
+
+  <!-- 08 COMPETITION -->
+  <section class="light-slide" data-label="Competitive Landscape">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">Competitive Landscape</div>
+        <h1 class="title">Others assist the work. We run it.</h1>
+      </div>
+      <table class="cmp">
+        <thead>
+          <tr>
+            <th style="width:30%"></th>
+            <th>HubSpot</th>
+            <th>Jasper / AI copy</th>
+            <th>Agencies</th>
+            <th class="us">Marketing Agents</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat">Plans the strategy</td>
+            <td><i data-lucide="x" class="no"></i></td>
+            <td><i data-lucide="x" class="no"></i></td>
+            <td><i data-lucide="check" class="yes"></i></td>
+            <td class="col-us"><i data-lucide="check" class="yes"></i></td>
+          </tr>
+          <tr>
+            <td class="feat">Produces the assets</td>
+            <td><i data-lucide="x" class="no"></i></td>
+            <td><i data-lucide="check" class="yes"></i></td>
+            <td><i data-lucide="check" class="yes"></i></td>
+            <td class="col-us"><i data-lucide="check" class="yes"></i></td>
+          </tr>
+          <tr>
+            <td class="feat">Runs &amp; optimizes autonomously</td>
+            <td><i data-lucide="x" class="no"></i></td>
+            <td><i data-lucide="x" class="no"></i></td>
+            <td><i data-lucide="x" class="no"></i></td>
+            <td class="col-us"><i data-lucide="check" class="yes"></i></td>
+          </tr>
+          <tr>
+            <td class="feat">Cost to run</td>
+            <td>Seat licenses</td>
+            <td>Per seat</td>
+            <td class="feat" style="color:var(--status-danger)">$8k+/mo</td>
+            <td class="col-us">One subscription</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="page-num">08</div>
+    </div>
+  </section>
+
+  <!-- 09 TRACTION -->
+  <section class="canvas" data-label="Early Traction">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="stat-grid">
+        <div>
+          <div class="mega ph">3.2<small>×</small></div>
+        </div>
+        <div>
+          <div class="eb">Early Traction</div>
+          <h2>Pilots are validating the core promise.</h2>
+          <p>Across <span class="ph">early design-partner pilots</span>, Marketing Agents shipped campaigns <span class="ph">3.2x faster</span> than the in-house baseline while cutting cost per qualified lead.</p>
+          <div class="metric-row">
+            <div class="m"><div class="v ph">12</div><div class="l">Design-partner pilots</div></div>
+            <div class="m"><div class="v ph">$XXk</div><div class="l">Committed pipeline / LOIs</div></div>
+            <div class="m"><div class="v ph">90%</div><div class="l">Pilot-to-intent-to-pay</div></div>
+          </div>
+          <div class="src">Replace every dotted figure with the founder's Q13 / Q15 answers.</div>
+        </div>
+      </div>
+      <div class="page-num">09</div>
+    </div>
+  </section>
+
+  <!-- 10 BUSINESS MODEL -->
+  <section class="light-slide" data-label="Business Model">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">Business Model</div>
+        <h1 class="title">Recurring subscription. Expanding with usage.</h1>
+      </div>
+      <div class="grid3">
+        <div class="card">
+          <span class="knum"><i data-lucide="credit-card"></i>Pricing</span>
+          <h3 class="ph">$X – $Xk / mo</h3>
+          <p>Tiered by channels and volume. Target ACV <span class="ph">$Xk</span>, expanding as agents take on more of the marketing function.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="repeat"></i>Economics</span>
+          <h3 class="ph">~80% margin</h3>
+          <p>Software margins on a service-replacing product. CAC payback target <span class="ph">&lt; X mo</span>. LT:CAC <span class="ph">X:1</span>.</p>
+        </div>
+        <div class="card">
+          <span class="knum"><i data-lucide="megaphone"></i>Go-to-market</span>
+          <h3>Founder-led → self-serve</h3>
+          <p>Land via <span class="ph">design partners</span> and BrandTrellis's audit funnel; expand to self-serve as agents prove out.</p>
+        </div>
+      </div>
+      <div class="page-num">10</div>
+    </div>
+  </section>
+
+  <!-- 11 ROADMAP -->
+  <section class="light-slide" data-label="Roadmap">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">Roadmap</div>
+        <h1 class="title">From pilot engine to autonomous marketing OS.</h1>
+      </div>
+      <div class="road">
+        <div class="phase now">
+          <div class="ptime">Now · Built</div>
+          <h4>The engine</h4>
+          <ul>
+            <li>Plan + Produce agents live</li>
+            <li>Email + social channels</li>
+            <li>Design-partner pilots</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="ptime">Q3–Q4 '26</div>
+          <h4>Optimize + scale</h4>
+          <ul>
+            <li>Autonomous optimizer GA</li>
+            <li>Paid + CRM integrations</li>
+            <li>First paying cohort</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="ptime">H1 '27</div>
+          <h4>Self-serve</h4>
+          <ul>
+            <li>Self-serve onboarding</li>
+            <li>Template marketplace</li>
+            <li>Usage-based expansion</li>
+          </ul>
+        </div>
+        <div class="phase">
+          <div class="ptime">H2 '27+</div>
+          <h4>Platform</h4>
+          <ul>
+            <li>Agent API + ecosystem</li>
+            <li>Vertical playbooks</li>
+            <li>Multi-team orgs</li>
+          </ul>
+        </div>
+      </div>
+      <div class="page-num">11</div>
+    </div>
+  </section>
+
+  <!-- 12 TEAM -->
+  <section class="light-slide" data-label="The Team">
+    <div class="pad">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="head-block">
+        <div class="eb">The Team</div>
+        <h1 class="title">Operators who've built the system before.</h1>
+      </div>
+      <div class="team-grid">
+        <div class="member">
+          <image-slot id="team-1" shape="rounded" radius="18" placeholder="Photo"></image-slot>
+          <div class="nm ph">Founder Name</div>
+          <div class="ttl">CEO · Co-founder</div>
+          <p class="ph">1–2 lines: the relevant win that makes you uniquely qualified to build this.</p>
+        </div>
+        <div class="member">
+          <image-slot id="team-2" shape="rounded" radius="18" placeholder="Photo"></image-slot>
+          <div class="nm ph">Founder Name</div>
+          <div class="ttl">CTO · Co-founder</div>
+          <p class="ph">1–2 lines: the technical credibility behind the agent platform.</p>
+        </div>
+        <div class="member">
+          <image-slot id="team-3" shape="rounded" radius="18" placeholder="Photo"></image-slot>
+          <div class="nm ph">Advisor / Hire</div>
+          <div class="ttl">Key advisor</div>
+          <p class="ph">1–2 lines: the name or hire that de-risks GTM or distribution.</p>
+        </div>
+      </div>
+      <div class="page-num">12</div>
+    </div>
+  </section>
+
+  <!-- 13 THE ASK -->
+  <section class="dark" data-label="The Ask">
+    <div class="pad motif-tile">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="eb">The Ask</div>
+      <div class="ask-grid">
+        <div>
+          <div class="ask-amt"><span class="ph">$1.5M</span><small class="ph">Pre-Seed · SAFE</small></div>
+        </div>
+        <div class="ask-side">
+          <h3>18 months of runway to a paying cohort.</h3>
+          <div class="use">
+            <div class="use-row"><span class="ul">Product &amp; engineering</span><div class="ut"><div class="uf" style="width:50%"></div></div><span class="up ph">50%</span></div>
+            <div class="use-row"><span class="ul">Go-to-market</span><div class="ut"><div class="uf" style="width:30%"></div></div><span class="up ph">30%</span></div>
+            <div class="use-row"><span class="ul">Key hires</span><div class="ut"><div class="uf" style="width:15%"></div></div><span class="up ph">15%</span></div>
+            <div class="use-row"><span class="ul">Operations</span><div class="ut"><div class="uf" style="width:5%"></div></div><span class="up ph">5%</span></div>
+          </div>
+          <p class="lede" style="margin-top:36px;color:rgba(255,255,255,0.82)">Milestones: optimizer GA, <span class="ph">10</span> paying customers, <span class="ph">$XXk</span> ARR — the proof points for a seed round.</p>
+        </div>
+      </div>
+      <div class="page-num">13</div>
+    </div>
+  </section>
+
+  <!-- 14 VISION -->
+  <section class="hero-bg" data-label="The Vision">
+    <div class="pad motif-corner">
+      <img class="logo-mark" src="assets/logo-horizontal.png" alt="BrandTrellis">
+      <div class="close-wrap">
+        <div class="eb">The Vision</div>
+        <h1>Every company runs<br>marketing on <em>agents.</em></h1>
+        <p>In ten years, hiring a marketing team means deploying one. Marketing Agents is the system that does the work — and BrandTrellis is the company building it first.</p>
+      </div>
+      <div class="page-num">14</div>
+    </div>
+  </section>
+
+</deck-stage>
+
+<div id="tweaks-root"></div>
+
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="deck-tweaks.jsx"></script>
+</body>
+</html>

@@ -1,0 +1,275 @@
+/* ============================================================
+   BrandTrellis — Colors & Type
+   ------------------------------------------------------------
+   The single source of truth for color and typography tokens
+   across slides, decks, marketing pages, and product UI.
+
+   Montserrat is loaded from local files in /fonts (brand-supplied).
+   Lato is loaded from Google Fonts via this @import (Lato has not
+   been supplied locally yet — re-supply WOFF2s to drop the CDN).
+   ============================================================ */
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=JetBrains+Mono:wght@400;500&display=swap");
+
+/* Brand-supplied Montserrat (local) — overrides Google Fonts */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("./fonts/Montserrat-Thin.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("./fonts/Montserrat-Light.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/Montserrat-Regular.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("./fonts/Montserrat-Bold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("./fonts/Montserrat-Black.ttf") format("truetype");
+}
+
+:root {
+  /* ---------- BRAND COLORS ---------- */
+  --bt-blue:        #282d66;   /* Primary — deep navy/indigo */
+  --bt-blue-700:    #1f2452;
+  --bt-blue-600:    #353b7a;
+  --bt-blue-500:    #4a508f;
+  --bt-blue-400:    #6c72a8;
+  --bt-blue-300:    #9ea2c4;
+  --bt-blue-200:    #c8cadd;
+  --bt-blue-100:    #e6e7ee;
+  --bt-blue-50:     #f3f4f8;
+
+  --bt-green:       #70944d;   /* Primary — sage/olive accent */
+  --bt-green-700:   #587938;
+  --bt-green-600:   #648645;
+  --bt-green-500:   #7ea15b;
+  --bt-green-400:   #97b67c;
+  --bt-green-300:   #b5cba0;
+  --bt-green-200:   #d3e0c5;
+  --bt-green-100:   #e9efe1;
+  --bt-green-50:    #f4f7ee;
+
+  /* ---------- NEUTRALS ---------- */
+  --bt-ink:         #14172e;   /* deepest, headlines on light */
+  --bt-charcoal:    #2d3142;   /* body text on light */
+  --bt-slate:       #525872;
+  --bt-mute:        #7c829a;
+  --bt-line:        #d9dbe4;
+  --bt-line-soft:   #ecedf2;
+  --bt-canvas:      #f6f7fa;   /* page bg, soft */
+  --bt-paper:       #ffffff;
+
+  /* ---------- SEMANTIC FOREGROUNDS / BACKGROUNDS ---------- */
+  --fg-1:           var(--bt-ink);
+  --fg-2:           var(--bt-charcoal);
+  --fg-3:           var(--bt-slate);
+  --fg-4:           var(--bt-mute);
+  --fg-on-blue:     #ffffff;
+  --fg-on-green:    #ffffff;
+
+  --bg-1:           var(--bt-paper);
+  --bg-2:           var(--bt-canvas);
+  --bg-3:           var(--bt-blue-50);
+  --bg-blue:        var(--bt-blue);
+  --bg-green:       var(--bt-green);
+
+  --border:         var(--bt-line);
+  --border-soft:    var(--bt-line-soft);
+
+  /* ---------- STATUS ---------- */
+  --status-success: #3f8a4a;
+  --status-warn:    #c98a14;
+  --status-danger:  #b3382c;
+  --status-info:    var(--bt-blue);
+
+  /* ---------- ACCENT / GRADIENT ---------- */
+  --accent:         var(--bt-green);
+  --accent-ink:     var(--bt-blue);
+  --gradient-hero:  linear-gradient(135deg, #282d66 0%, #1f2452 60%, #14172e 100%);
+  --gradient-band:  linear-gradient(90deg, #282d66 0%, #353b7a 100%);
+  --gradient-accent:linear-gradient(135deg, #70944d 0%, #97b67c 100%);
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display:   "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --font-body:      "Lato", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:      "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace;
+
+  /* ---------- TYPE SCALE ---------- */
+  --fs-display-xl:  72px;
+  --fs-display:     56px;
+  --fs-h1:          44px;
+  --fs-h2:          32px;
+  --fs-h3:          24px;
+  --fs-h4:          20px;
+  --fs-body-lg:     18px;
+  --fs-body:        16px;
+  --fs-body-sm:     14px;
+  --fs-eyebrow:     13px;
+  --fs-caption:     12px;
+
+  /* ---------- LINE HEIGHT ---------- */
+  --lh-tight:       1.05;
+  --lh-snug:        1.2;
+  --lh-normal:      1.45;
+  --lh-loose:       1.6;
+
+  /* ---------- WEIGHTS ---------- */
+  --fw-light:       300;
+  --fw-regular:     400;
+  --fw-medium:      500;
+  --fw-semibold:    600;
+  --fw-bold:        700;
+  --fw-black:       900;
+
+  /* ---------- LETTERSPACING ---------- */
+  --ls-display:     -0.02em;
+  --ls-tight:       -0.01em;
+  --ls-normal:      0;
+  --ls-eyebrow:     0.14em;   /* uppercase labels */
+  --ls-button:      0.04em;
+
+  /* ---------- SPACING (4px base) ---------- */
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-8:  32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+  --sp-24: 96px;
+  --sp-32: 128px;
+
+  /* ---------- RADII ---------- */
+  --r-xs: 4px;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 20px;
+  --r-2xl: 28px;
+  --r-pill: 999px;
+
+  /* ---------- SHADOWS ---------- */
+  --shadow-xs: 0 1px 1px rgba(20, 23, 46, 0.04);
+  --shadow-sm: 0 1px 2px rgba(20, 23, 46, 0.06), 0 1px 3px rgba(20, 23, 46, 0.04);
+  --shadow-md: 0 4px 8px rgba(20, 23, 46, 0.06), 0 2px 4px rgba(20, 23, 46, 0.04);
+  --shadow-lg: 0 12px 24px rgba(20, 23, 46, 0.08), 0 4px 8px rgba(20, 23, 46, 0.04);
+  --shadow-xl: 0 24px 48px rgba(20, 23, 46, 0.12), 0 8px 16px rgba(20, 23, 46, 0.06);
+  --shadow-inset: inset 0 1px 0 rgba(255,255,255,0.06);
+  --shadow-focus: 0 0 0 3px rgba(112, 148, 77, 0.35);
+
+  /* ---------- MOTION ---------- */
+  --ease-out:       cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast:       120ms;
+  --dur-base:       200ms;
+  --dur-slow:       320ms;
+}
+
+/* ============================================================
+   ELEMENT DEFAULTS
+   ============================================================ */
+
+html, body {
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  color: var(--fg-2);
+  background: var(--bg-1);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--fg-1);
+  margin: 0 0 var(--sp-4);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-tight);
+  line-height: var(--lh-snug);
+  text-wrap: balance;
+}
+
+h1 { font-size: var(--fs-h1); letter-spacing: var(--ls-display); line-height: var(--lh-tight); }
+h2 { font-size: var(--fs-h2); }
+h3 { font-size: var(--fs-h3); }
+h4 { font-size: var(--fs-h4); font-weight: var(--fw-semibold); }
+
+p  { margin: 0 0 var(--sp-4); line-height: var(--lh-loose); text-wrap: pretty; }
+small { font-size: var(--fs-body-sm); color: var(--fg-3); }
+code, pre { font-family: var(--font-mono); font-size: 0.95em; }
+
+a {
+  color: var(--bt-blue);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+a:hover { color: var(--bt-green-700); }
+
+::selection { background: var(--bt-green-200); color: var(--bt-blue-700); }
+
+/* ============================================================
+   UTILITY CLASSES — opt-in semantic styling
+   ============================================================ */
+
+.bt-display-xl { font-family: var(--font-display); font-size: var(--fs-display-xl); font-weight: var(--fw-black); letter-spacing: var(--ls-display); line-height: var(--lh-tight); color: var(--fg-1); }
+.bt-display    { font-family: var(--font-display); font-size: var(--fs-display);    font-weight: var(--fw-black); letter-spacing: var(--ls-display); line-height: var(--lh-tight); color: var(--fg-1); }
+.bt-h1         { font-family: var(--font-display); font-size: var(--fs-h1); font-weight: var(--fw-bold); letter-spacing: var(--ls-display); line-height: var(--lh-tight); }
+.bt-h2         { font-family: var(--font-display); font-size: var(--fs-h2); font-weight: var(--fw-bold); letter-spacing: var(--ls-tight);  line-height: var(--lh-snug); }
+.bt-h3         { font-family: var(--font-display); font-size: var(--fs-h3); font-weight: var(--fw-bold); letter-spacing: var(--ls-tight);  line-height: var(--lh-snug); }
+.bt-h4         { font-family: var(--font-display); font-size: var(--fs-h4); font-weight: var(--fw-semibold); line-height: var(--lh-snug); }
+
+.bt-eyebrow {
+  font-family: var(--font-display);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-bold);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--bt-green-700);
+}
+
+.bt-lede {
+  font-family: var(--font-body);
+  font-size: var(--fs-body-lg);
+  line-height: var(--lh-loose);
+  color: var(--fg-2);
+  font-weight: var(--fw-regular);
+}
+
+.bt-body    { font-size: var(--fs-body);    line-height: var(--lh-loose); color: var(--fg-2); }
+.bt-body-sm { font-size: var(--fs-body-sm); line-height: var(--lh-normal); color: var(--fg-3); }
+.bt-caption { font-size: var(--fs-caption); line-height: var(--lh-normal); color: var(--fg-4); }
+.bt-mono    { font-family: var(--font-mono); font-size: var(--fs-body-sm); }
+
+/* Color helpers */
+.fg-blue   { color: var(--bt-blue); }
+.fg-green  { color: var(--bt-green-700); }
+.fg-mute   { color: var(--fg-3); }
+.bg-blue   { background: var(--bt-blue); color: var(--fg-on-blue); }
+.bg-green  { background: var(--bt-green); color: var(--fg-on-green); }
+.bg-canvas { background: var(--bt-canvas); }
