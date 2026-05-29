@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marketing Agents · Investor Pitch Discovery</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="BrandTrellis · Marketing Agents — founder intake form. Answers feed directly into the investor pitch deck.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/colors_and_type.css">
+<style>
+  :root {
+    --doc-w: 820px;
+  }
+  body {
+    margin: 0;
+    background: var(--bt-canvas);
+    font-family: var(--font-body);
+    color: var(--fg-2);
+    padding: 56px 24px 96px;
+  }
+  .doc {
+    max-width: var(--doc-w);
+    margin: 0 auto;
+    background: var(--bt-paper);
+    border: 1px solid var(--bt-line);
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+  }
+
+  /* ---------- HEADER ---------- */
+  .hd {
+    position: relative;
+    background: var(--gradient-hero);
+    color: #fff;
+    padding: 48px 56px 44px;
+    overflow: hidden;
+  }
+  .hd::before {
+    content: "";
+    position: absolute;
+    right: -120px; top: -120px;
+    width: 420px; height: 420px;
+    background: url('assets/logo-icon.png') center/contain no-repeat;
+    opacity: 0.10;
+    filter: brightness(0) invert(1);
+    transform: rotate(8deg);
+  }
+  .hd img.logo {
+    height: 30px;
+    filter: brightness(0) invert(1);
+    margin-bottom: 36px;
+  }
+  .hd .eyebrow {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bt-green-300);
+    display: flex; align-items: center; gap: 14px;
+    margin-bottom: 18px;
+  }
+  .hd .eyebrow::before { content: ""; width: 36px; height: 3px; background: var(--bt-green); }
+  .hd h1 {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 40px;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    color: #fff;
+    margin: 0 0 16px;
+    max-width: 90%;
+  }
+  .hd p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.82);
+    margin: 0;
+    max-width: 560px;
+  }
+  .hd .meta {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-top: 28px;
+  }
+  .hd .chip {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: var(--r-pill);
+  }
+
+  /* ---------- BODY ---------- */
+  .bd { padding: 16px 56px 48px; }
+
+  .sec { margin-top: 40px; }
+  .sec-hd {
+    display: flex; align-items: baseline; gap: 16px;
+    border-bottom: 2px solid var(--bt-green);
+    padding-bottom: 12px;
+    margin-bottom: 8px;
+  }
+  .sec-num {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 15px;
+    color: var(--bt-green-700);
+    letter-spacing: 0.1em;
+    flex: none;
+  }
+  .sec-hd h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 21px;
+    letter-spacing: -0.01em;
+    color: var(--bt-blue);
+    margin: 0;
+    flex: 1;
+  }
+  .sec-hd .range {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--fg-4);
+    flex: none;
+  }
+
+  ol.q { list-style: none; counter-reset: none; margin: 0; padding: 0; }
+  ol.q li {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 4px 16px;
+    padding: 18px 0 18px;
+    border-bottom: 1px solid var(--bt-line-soft);
+    align-items: start;
+  }
+  ol.q li:last-child { border-bottom: none; }
+  .qn {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+    color: var(--bt-blue);
+    grid-row: 1;
+  }
+  .qt {
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--fg-2);
+    grid-row: 1;
+    align-self: center;
+  }
+  .qt .hint {
+    display: block;
+    font-size: 13.5px;
+    color: var(--fg-4);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ---------- ANSWER (fillable, print-ready) ---------- */
+  .answer {
+    grid-column: 2;
+    grid-row: 2;
+    margin-top: 12px;
+    border: 1px dashed var(--bt-line);
+    border-radius: var(--r-md);
+    background: var(--bt-canvas);
+    padding: 12px 14px;
+  }
+  .answer-label {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bt-green-700);
+    margin-bottom: 8px;
+  }
+  .answer-input {
+    display: block;
+    width: 100%;
+    min-height: 40px;
+    border: none;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    resize: vertical;
+    font-family: var(--font-body);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--fg-2);
+    outline: none;
+    overflow: hidden;
+  }
+  .answer-input::placeholder { color: var(--fg-4); }
+  .answer:focus-within {
+    border-color: var(--bt-green);
+    box-shadow: var(--shadow-focus);
+  }
+
+  /* ---------- CALLOUT ---------- */
+  .callout {
+    margin-top: 40px;
+    background: var(--bt-blue-50);
+    border-left: 4px solid var(--bt-green);
+    border-radius: 0 var(--r-md) var(--r-md) 0;
+    padding: 20px 24px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--fg-2);
+  }
+  .callout strong { color: var(--bt-blue); font-family: var(--font-display); }
+
+  .foot {
+    text-align: center;
+    margin: 28px auto 0;
+    max-width: var(--doc-w);
+    font-size: 12.5px;
+    color: var(--fg-4);
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .doc { border: none; box-shadow: none; border-radius: 0; max-width: 100%; }
+    .sec { break-inside: avoid; }
+    ol.q li { break-inside: avoid; }
+    .answer { background: #fff; }
+    .answer-input { color: #000; }
+  }
+  @media (max-width: 640px) {
+    .bd, .hd { padding-left: 28px; padding-right: 28px; }
+    ol.q li { grid-template-columns: 30px 1fr; }
+  }
+</style>
+</head>
+<body>
+<form class="doc" autocomplete="off">
+
+  <header class="hd">
+    <img class="logo" src="assets/logo-horizontal.png" alt="BrandTrellis">
+    <div class="eyebrow">Investor Pitch · Discovery</div>
+    <h1>Marketing Agents — Founder Intake</h1>
+    <p>Your answers feed directly into the investor deck. Bullet points are fine — don't polish. We'll shape the narrative.</p>
+    <div class="meta">
+      <span class="chip">22 Questions</span>
+      <span class="chip">~30–45 min</span>
+      <span class="chip">Pre-Seed</span>
+    </div>
+  </header>
+
+  <div class="bd">
+
+    <section class="sec">
+      <div class="sec-hd">
+        <span class="sec-num">01</span>
+        <h2>Vision &amp; Problem</h2>
+        <span class="range">Q1–4</span>
+      </div>
+      <ol class="q">
+        <li><span class="qn">1</span><label class="qt" for="q1">In one sentence, what is Marketing Agents and who is it for?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q1" name="q1" rows="2"></textarea></div></li>
+        <li><span class="qn">2</span><label class="qt" for="q2">What specific, painful problem does it solve that existing tools (HubSpot, Jasper, agencies) do not?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q2" name="q2" rows="2"></textarea></div></li>
+        <li><span class="qn">3</span><label class="qt" for="q3">Why now? What market, tech, or behavioral shift makes this the right moment to build this?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q3" name="q3" rows="2"></textarea></div></li>
+        <li><span class="qn">4</span><label class="qt" for="q4">What is your 10-year vision — what does the world look like if Marketing Agents wins?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q4" name="q4" rows="2"></textarea></div></li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <div class="sec-hd">
+        <span class="sec-num">02</span>
+        <h2>Product &amp; Differentiation</h2>
+        <span class="range">Q5–9</span>
+      </div>
+      <ol class="q">
+        <li><span class="qn">5</span><label class="qt" for="q5">Describe the product in plain language — what does a user actually do inside it?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q5" name="q5" rows="2"></textarea></div></li>
+        <li><span class="qn">6</span><label class="qt" for="q6">What are the 3 features investors should know about (and why each matters)?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q6" name="q6" rows="2"></textarea></div></li>
+        <li><span class="qn">7</span><label class="qt" for="q7">What is your unfair advantage / moat? <span class="hint">Proprietary tech, data, team, IP, distribution.</span></label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q7" name="q7" rows="2"></textarea></div></li>
+        <li><span class="qn">8</span><label class="qt" for="q8">What have you already built vs. what's on the roadmap for the next 12 months?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q8" name="q8" rows="2"></textarea></div></li>
+        <li><span class="qn">9</span><label class="qt" for="q9">Any demo, screenshots, or live metrics we can showcase in the deck?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q9" name="q9" rows="2"></textarea></div></li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <div class="sec-hd">
+        <span class="sec-num">03</span>
+        <h2>Market &amp; Customer</h2>
+        <span class="range">Q10–13</span>
+      </div>
+      <ol class="q">
+        <li><span class="qn">10</span><label class="qt" for="q10">Who is the ideal customer profile? <span class="hint">Industry, size, role, budget.</span></label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q10" name="q10" rows="2"></textarea></div></li>
+        <li><span class="qn">11</span><label class="qt" for="q11">What is your estimated TAM / SAM / SOM — and how did you size it?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q11" name="q11" rows="2"></textarea></div></li>
+        <li><span class="qn">12</span><label class="qt" for="q12">Who are your top 3 competitors and how do you beat or sidestep each?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q12" name="q12" rows="2"></textarea></div></li>
+        <li><span class="qn">13</span><label class="qt" for="q13">What early customer validation do you have? <span class="hint">Pilots, waitlist, testimonials, LOIs.</span></label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q13" name="q13" rows="2"></textarea></div></li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <div class="sec-hd">
+        <span class="sec-num">04</span>
+        <h2>Business Model &amp; Traction</h2>
+        <span class="range">Q14–18</span>
+      </div>
+      <ol class="q">
+        <li><span class="qn">14</span><label class="qt" for="q14">What is your pricing model and target ACV / LTV?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q14" name="q14" rows="2"></textarea></div></li>
+        <li><span class="qn">15</span><label class="qt" for="q15">What are your current traction metrics? <span class="hint">Users, MRR, retention, pipeline.</span></label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q15" name="q15" rows="2"></textarea></div></li>
+        <li><span class="qn">16</span><label class="qt" for="q16">What are your unit economics? <span class="hint">CAC, payback period, gross margin — estimates are fine.</span></label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q16" name="q16" rows="2"></textarea></div></li>
+        <li><span class="qn">17</span><label class="qt" for="q17">What are your primary acquisition channels — proven or planned?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q17" name="q17" rows="2"></textarea></div></li>
+        <li><span class="qn">18</span><label class="qt" for="q18">What are the 3 biggest risks to the business and how do you mitigate them?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q18" name="q18" rows="2"></textarea></div></li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <div class="sec-hd">
+        <span class="sec-num">05</span>
+        <h2>Team, Ask &amp; Use of Funds</h2>
+        <span class="range">Q19–22</span>
+      </div>
+      <ol class="q">
+        <li><span class="qn">19</span><label class="qt" for="q19">Who is on the founding team, and why are you uniquely qualified to build this?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q19" name="q19" rows="2"></textarea></div></li>
+        <li><span class="qn">20</span><label class="qt" for="q20">How much are you raising, at what valuation, and what round? <span class="hint">Pre-seed / seed.</span></label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q20" name="q20" rows="2"></textarea></div></li>
+        <li><span class="qn">21</span><label class="qt" for="q21">How will the funds be allocated (% to product, GTM, hiring, ops) and what milestones does it unlock?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q21" name="q21" rows="2"></textarea></div></li>
+        <li><span class="qn">22</span><label class="qt" for="q22">What does a successful exit look like — and which comparable exits anchor your thinking?</label><div class="answer"><span class="answer-label">Your answer</span><textarea class="answer-input" id="q22" name="q22" rows="2"></textarea></div></li>
+      </ol>
+    </section>
+
+    <div class="callout">
+      <strong>How to respond:</strong> Bullet points are fine — don't polish. We'll shape the narrative into the deck. Aim for honesty over perfection; investors smell spin.
+    </div>
+
+  </div>
+</form>
+
+<p class="foot">BrandTrellis · Marketing Agents · Confidential founder intake</p>
+
+<script>
+  // Auto-grow answer fields as the founder types — keeps the print layout clean.
+  (function () {
+    var fields = document.querySelectorAll('.answer-input');
+    function grow(el) {
+      el.style.height = 'auto';
+      el.style.height = el.scrollHeight + 'px';
+    }
+    fields.forEach(function (el) {
+      grow(el);
+      el.addEventListener('input', function () { grow(el); });
+    });
+  })();
+</script>
+
+</body>
+</html>
